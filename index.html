@@ -1,0 +1,125 @@
+﻿<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Painel de Poker - Caio</title>
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Poker">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#0f1420">
+<link rel="apple-touch-icon" href="icone.png">
+<link rel="icon" href="icone.png">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; margin:0; background:#0f1420; color:#e7ecf3; }
+  .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
+  h1 { font-size: 24px; margin: 0 0 4px; }
+  .sub { color:#8b97a8; font-size:13px; margin-bottom:24px; }
+  .grid { display:grid; grid-template-columns: repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-bottom:14px; }
+  .card { background:#1a2233; border:1px solid #28324a; border-radius:14px; padding:16px 18px; }
+  .card .lbl { color:#8b97a8; font-size:12px; text-transform:uppercase; letter-spacing:.5px; }
+  .card .val { font-size:26px; font-weight:700; margin-top:6px; }
+  .pos { color:#33d69f; } .neg { color:#ff6b6b; }
+  .section-title { font-size:13px; color:#8b97a8; text-transform:uppercase; letter-spacing:.5px; margin:26px 0 10px; }
+  .panel { background:#1a2233; border:1px solid #28324a; border-radius:14px; padding:18px; margin-bottom:14px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th,td { padding:10px 8px; text-align:left; border-bottom:1px solid #28324a; }
+  th { color:#8b97a8; font-weight:600; font-size:12px; text-transform:uppercase; }
+  .tag { display:inline-block; background:#243049; border-radius:8px; padding:2px 10px; font-size:12px; margin-left:8px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎴 Painel de Poker</h1>
+  <div class="sub">Atualizado em 22/06/2026 21:51 &nbsp;|&nbsp; 1 torneios no total</div>
+
+  <div class="section-title">Ano de 2026 <span class="tag">1 torneios</span></div>
+  <div class="grid">
+    <div class="card"><div class="lbl">Lucro no ano</div><div class="val pos">R$ 35.000</div></div>
+    <div class="card"><div class="lbl">ROI no ano</div><div class="val pos">700%</div></div>
+    <div class="card"><div class="lbl">Investido</div><div class="val">R$ 5.000</div></div>
+    <div class="card"><div class="lbl">ITM (no dinheiro)</div><div class="val">100%</div></div>
+    <div class="card"><div class="lbl">🏆 Cravadas (1o lugar)</div><div class="val">0</div></div>
+    <div class="card"><div class="lbl">Buy-in medio</div><div class="val">R$ 2.500</div></div>
+    <div class="card"><div class="lbl">Maior premio</div><div class="val">R$ 40.000</div></div>
+  </div>
+
+  <div class="section-title">Mes atual</div>
+  <div class="grid">
+    <div class="card"><div class="lbl">Lucro no mes</div><div class="val pos">R$ 35.000</div></div>
+    <div class="card"><div class="lbl">ROI no mes</div><div class="val pos">700%</div></div>
+    <div class="card"><div class="lbl">Torneios no mes</div><div class="val">1</div></div>
+    <div class="card"><div class="lbl">ITM no mes</div><div class="val">100%</div></div>
+    <div class="card"><div class="lbl">🏆 Cravadas no mes</div><div class="val">0</div></div>
+  </div>
+
+  <div class="section-title">Lucro total (R$) x Numero de torneios</div>
+  <div class="panel"><canvas id="chartAcc" height="120"></canvas></div>
+
+  <div class="section-title">Lucro por mes</div>
+  <div class="panel"><canvas id="chartLucroMes" height="110"></canvas></div>
+
+  <div class="section-title">ROI por mes (%)</div>
+  <div class="panel"><canvas id="chartRoiMes" height="110"></canvas></div>
+
+  <div class="section-title">Ultimos torneios</div>
+  <div class="panel">
+    <table>
+      <thead><tr><th>Data</th><th>Buy-in</th><th>Reentr.</th><th>Investido</th><th>Premio</th><th>Lucro</th><th>Posicao</th><th>ITM</th></tr></thead>
+      <tbody><tr><td>22/06/2026</td><td>R$ 2.500</td><td>1</td><td>R$ 5.000</td><td>R$ 40.000</td><td class='pos'>R$ 35.000</td><td>6o</td><td>Sim</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<script>
+const D = {"labelsMes":["2026-06"],"accRadius":[0,6],"lucroMes":[35000],"accColor":["#33d69f","#ffd24a"],"accDatas":["Inicio (0 torneios)","22/06/2026"],"accPoints":[{"x":0,"y":0},{"x":1,"y":35000}],"roiMes":[700],"accLucros":[0,35000]};
+const grid = '#28324a', tick = '#8b97a8';
+const baseOpts = { responsive:true, plugins:{legend:{display:false}}, scales:{ x:{grid:{color:grid},ticks:{color:tick}}, y:{grid:{color:grid},ticks:{color:tick}} } };
+
+const fmtBR = (v)=> 'R$ ' + Number(v).toLocaleString('pt-BR');
+new Chart(document.getElementById('chartAcc'), {
+  type:'line',
+  data:{ datasets:[{
+    data: D.accPoints,
+    borderColor:'#33d69f',
+    backgroundColor:'rgba(51,214,159,.12)',
+    fill:true, tension:.2, borderWidth:2,
+    pointRadius: D.accRadius,
+    pointHoverRadius: D.accRadius.map(r=>r+2),
+    pointBackgroundColor: D.accColor,
+    pointBorderColor: D.accColor
+  }]},
+  options:{
+    responsive:true,
+    parsing:false,
+    plugins:{
+      legend:{display:false},
+      tooltip:{ callbacks:{
+        title:(items)=> 'Torneio numero ' + items[0].parsed.x,
+        label:(item)=>{
+          const i = item.dataIndex;
+          return [ D.accDatas[i], 'Lucro acumulado: ' + fmtBR(item.parsed.y), 'Nesse torneio: ' + fmtBR(D.accLucros[i]) ];
+        }
+      }}
+    },
+    scales:{
+      x:{ type:'linear', min:0, title:{display:true, text:'Numero de torneios', color:tick}, grid:{color:grid}, ticks:{color:tick, precision:0, maxTicksLimit:12} },
+      y:{ title:{display:true, text:'Lucro acumulado (R$)', color:tick}, grid:{color:grid}, ticks:{color:tick, callback:(v)=> fmtBR(v) } }
+    }
+  }
+});
+new Chart(document.getElementById('chartLucroMes'), {
+  type:'bar',
+  data:{ labels:D.labelsMes, datasets:[{ data:D.lucroMes, backgroundColor:D.lucroMes.map(v=>v>=0?'#33d69f':'#ff6b6b') }] },
+  options: baseOpts
+});
+new Chart(document.getElementById('chartRoiMes'), {
+  type:'bar',
+  data:{ labels:D.labelsMes, datasets:[{ data:D.roiMes, backgroundColor:D.roiMes.map(v=>v>=0?'#4aa3ff':'#ff6b6b') }] },
+  options: baseOpts
+});
+</script>
+</body>
+</html>
