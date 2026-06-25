@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Painel de Poker - Caio</title>
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-title" content="Poker">
@@ -13,7 +13,12 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 <style>
   * { box-sizing: border-box; }
-  body { font-family: 'Segoe UI', Arial, sans-serif; margin:0; background:#0f1420; color:#e7ecf3; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    font-family: -apple-system, 'Segoe UI', Arial, sans-serif; margin:0;
+    background:#0f1420; color:#e7ecf3;
+    padding: env(safe-area-inset-top) env(safe-area-inset-right) env(safe-area-inset-bottom) env(safe-area-inset-left);
+  }
   .wrap { max-width: 1100px; margin: 0 auto; padding: 24px; }
   h1 { font-size: 24px; margin: 0 0 4px; }
   .sub { color:#8b97a8; font-size:13px; margin-bottom:24px; }
@@ -23,17 +28,32 @@
   .card .val { font-size:26px; font-weight:700; margin-top:6px; }
   .pos { color:#33d69f; } .neg { color:#ff6b6b; }
   .section-title { font-size:13px; color:#8b97a8; text-transform:uppercase; letter-spacing:.5px; margin:26px 0 10px; }
-  .panel { background:#1a2233; border:1px solid #28324a; border-radius:14px; padding:18px; margin-bottom:14px; }
+  .panel { background:#1a2233; border:1px solid #28324a; border-radius:14px; padding:18px; margin-bottom:14px; overflow-x:auto; }
   table { width:100%; border-collapse:collapse; font-size:14px; }
-  th,td { padding:10px 8px; text-align:left; border-bottom:1px solid #28324a; }
+  th,td { padding:10px 8px; text-align:left; border-bottom:1px solid #28324a; white-space:nowrap; }
   th { color:#8b97a8; font-weight:600; font-size:12px; text-transform:uppercase; }
   .tag { display:inline-block; background:#243049; border-radius:8px; padding:2px 10px; font-size:12px; margin-left:8px; }
+
+  /* --- Otimizado para iPhone (16 Pro Max e afins) --- */
+  @media (max-width: 600px) {
+    .wrap { padding: 14px; }
+    h1 { font-size: 26px; }
+    .sub { font-size: 13px; margin-bottom: 16px; }
+    .grid { grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+    .card { padding: 13px 14px; border-radius: 14px; }
+    .card .lbl { font-size: 11px; }
+    .card .val { font-size: 23px; margin-top: 4px; }
+    .section-title { margin: 20px 0 8px; font-size: 12px; }
+    .panel { padding: 14px; }
+    table { font-size: 13px; }
+    th,td { padding: 9px 7px; }
+  }
 </style>
 </head>
 <body>
 <div class="wrap">
   <h1>🎴 Painel de Poker</h1>
-  <div class="sub">Atualizado em 22/06/2026 21:51 &nbsp;|&nbsp; 1 torneios no total</div>
+  <div class="sub">Atualizado em 25/06/2026 18:59 &nbsp;|&nbsp; 1 torneios no total</div>
 
   <div class="section-title">Ano de 2026 <span class="tag">1 torneios</span></div>
   <div class="grid">
