@@ -37,7 +37,23 @@
   th { color:#8b97a8; font-weight:600; font-size:12px; text-transform:uppercase; }
   .tag { display:inline-block; background:#243049; border-radius:8px; padding:2px 10px; font-size:12px; margin-left:8px; }
 
+  /* abas de mes */
+  .mes-tabs { display:flex; flex-wrap:wrap; gap:10px; margin-bottom:14px; }
+  .mes-tab {
+    font-family: inherit; cursor:pointer; display:flex; align-items:center; gap:8px;
+    background:#1a2233; border:1px solid #28324a; border-radius:12px;
+    padding:11px 16px; color:#e7ecf3; font-size:15px; font-weight:600;
+    transition: background .15s, border-color .15s;
+  }
+  .mes-tab:hover { background:#222c42; }
+  .mes-tab.active { background:#243049; border-color:#3d5488; box-shadow:0 0 0 1px #3d5488 inset; }
+  .mes-ano { color:#8b97a8; font-size:12px; font-weight:500; }
+  .mes-dot { width:8px; height:8px; border-radius:50%; background:currentColor; }
+  .mes-pane.hidden { display:none; }
+
   @media (max-width: 600px) {
+    .mes-tabs { gap:8px; }
+    .mes-tab { padding:10px 13px; font-size:14px; flex:1 1 calc(50% - 8px); justify-content:center; }
     .wrap { padding: 14px; }
     h1 { font-size: 26px; }
     .sub { font-size: 13px; margin-bottom: 16px; }
@@ -55,7 +71,7 @@
 <body>
 <div class="wrap">
   <h1>🎴 Painel de Poker</h1>
-  <div class="sub">Atualizado em 17/07/2026 04:08 &nbsp;|&nbsp; 4 torneios no total</div>
+  <div class="sub">Atualizado em 18/07/2026 09:48 &nbsp;|&nbsp; 4 torneios no total</div>
 
   <div class="section-title">Ano de 2026 <span class="tag">4 torneios</span></div>
   <div class="grid">
@@ -68,13 +84,44 @@
     <div class="card"><div class="lbl">Maior premio</div><div class="val ">R$ 40.000</div></div>
   </div>
 
-  <div class="section-title">Mes atual</div>
-  <div class="grid">
-    <div class="card"><div class="lbl">Lucro no mes</div><div class="val pos">R$ 300</div></div>
-    <div class="card"><div class="lbl">ROI no mes</div><div class="val pos">20%</div></div>
-    <div class="card"><div class="lbl">Torneios no mes</div><div class="val ">1</div></div>
-    <div class="card"><div class="lbl">ITM no mes</div><div class="val ">100%</div></div>
-    <div class="card"><div class="lbl">🏆 Cravadas no mes</div><div class="val ">0</div></div>
+  <div class="section-title">Detalhe por mes <span class="tag">clique no mes</span></div>
+  <div class="mes-tabs"><button class="mes-tab" data-mes="2026-06">Junho <span class="mes-ano">2026</span><span class="mes-dot pos"></span></button><button class="mes-tab active" data-mes="2026-07">Julho <span class="mes-ano">2026</span><span class="mes-dot pos"></span></button></div>
+
+  <div class="mes-pane hidden" data-mes="2026-06">
+    <div class="grid">
+      <div class="card"><div class="lbl">Lucro no mes</div><div class="val pos">R$ 31.700</div></div>
+      <div class="card"><div class="lbl">ROI no mes</div><div class="val pos">381,9%</div></div>
+      <div class="card"><div class="lbl">Torneios</div><div class="val ">3</div></div>
+      <div class="card"><div class="lbl">ITM (no dinheiro)</div><div class="val ">33,3%</div></div>
+      <div class="card"><div class="lbl">🏆 Cravadas</div><div class="val ">0</div></div>
+      <div class="card"><div class="lbl">Investido</div><div class="val ">R$ 8.300</div></div>
+      <div class="card"><div class="lbl">Buy-in medio</div><div class="val ">R$ 1.533</div></div>
+      <div class="card"><div class="lbl">Maior premio</div><div class="val ">R$ 40.000</div></div>
+    </div>
+    <div class="panel">
+      <table>
+        <thead><tr><th>Data</th><th>Buy-in</th><th>Reentr.</th><th>Investido</th><th>Premio</th><th>Lucro</th><th>Posicao</th><th>ITM</th></tr></thead>
+        <tbody><tr><td>30/06/2026</td><td>R$ 600</td><td>2</td><td>R$ 1.800</td><td>R$ 0</td><td class='neg'>R$ -1.800</td><td>-</td><td>Nao</td></tr><tr><td>26/06/2026</td><td>R$ 1.500</td><td>0</td><td>R$ 1.500</td><td>R$ 0</td><td class='neg'>R$ -1.500</td><td>-</td><td>Nao</td></tr><tr><td>22/06/2026</td><td>R$ 2.500</td><td>1</td><td>R$ 5.000</td><td>R$ 40.000</td><td class='pos'>R$ 35.000</td><td>6o</td><td>Sim</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="mes-pane" data-mes="2026-07">
+    <div class="grid">
+      <div class="card"><div class="lbl">Lucro no mes</div><div class="val pos">R$ 300</div></div>
+      <div class="card"><div class="lbl">ROI no mes</div><div class="val pos">20%</div></div>
+      <div class="card"><div class="lbl">Torneios</div><div class="val ">1</div></div>
+      <div class="card"><div class="lbl">ITM (no dinheiro)</div><div class="val ">100%</div></div>
+      <div class="card"><div class="lbl">🏆 Cravadas</div><div class="val ">0</div></div>
+      <div class="card"><div class="lbl">Investido</div><div class="val ">R$ 1.500</div></div>
+      <div class="card"><div class="lbl">Buy-in medio</div><div class="val ">R$ 1.500</div></div>
+      <div class="card"><div class="lbl">Maior premio</div><div class="val ">R$ 1.800</div></div>
+    </div>
+    <div class="panel">
+      <table>
+        <thead><tr><th>Data</th><th>Buy-in</th><th>Reentr.</th><th>Investido</th><th>Premio</th><th>Lucro</th><th>Posicao</th><th>ITM</th></tr></thead>
+        <tbody><tr><td>17/07/2026</td><td>R$ 1.500</td><td>0</td><td>R$ 1.500</td><td>R$ 1.800</td><td class='pos'>R$ 300</td><td>-</td><td>Sim</td></tr></tbody>
+      </table>
+    </div>
   </div>
 
   <div class="section-title">Lucro total (R$) x Numero de torneios</div>
@@ -95,6 +142,19 @@
   </div>
 </div>
 <script>
+// Abas de mes: mostra o painel do mes clicado e esconde os outros.
+document.querySelectorAll('.mes-tab').forEach(function(btn){
+  btn.addEventListener('click', function(){
+    var alvo = btn.dataset.mes;
+    document.querySelectorAll('.mes-tab').forEach(function(b){
+      b.classList.toggle('active', b.dataset.mes === alvo);
+    });
+    document.querySelectorAll('.mes-pane').forEach(function(p){
+      p.classList.toggle('hidden', p.dataset.mes !== alvo);
+    });
+  });
+});
+
 const D = {"labelsMes": ["2026-06", "2026-07"], "lucroMes": [31700, 300], "roiMes": [381.9, 20.0], "accPoints": [{"x": 0, "y": 0}, {"x": 1, "y": 35000}, {"x": 2, "y": 33500}, {"x": 3, "y": 31700}, {"x": 4, "y": 32000}], "accRadius": [0, 6, 3, 3, 4], "accColor": ["#33d69f", "#ffd24a", "#ff6b6b", "#ff6b6b", "#33d69f"], "accDatas": ["Inicio (0 torneios)", "22/06/2026", "26/06/2026", "30/06/2026", "17/07/2026"], "accLucros": [0, 35000, -1500, -1800, 300]};
 const grid = '#28324a', tick = '#8b97a8';
 const baseOpts = { responsive:true, plugins:{legend:{display:false}}, scales:{ x:{grid:{color:grid},ticks:{color:tick}}, y:{grid:{color:grid},ticks:{color:tick}} } };
